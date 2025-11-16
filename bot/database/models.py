@@ -1,6 +1,6 @@
 import asyncpg
 from datetime import datetime
-from bot.config.settings import DATABASE_URL
+#from bot.config.settings import DATABASE_URL
 
 class Database:
     def __init__(self):

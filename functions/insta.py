@@ -2,9 +2,15 @@
 import glob
 import subprocess
 import instaloader
+import re
 
-shortcode = "DQFgIhRjOA4"
 
+def get_shortcode(link):
+    """Extract shortcode - grabs alphanumeric string after /p/, /reel/, /tv/"""
+
+    # Match word characters until we hit /, ?, #, or end of string
+    match = re.search(r'/(?:p|reel|tv)/([\w-]+?)(?:/|\?|#|$)', url)
+    return match.group(1) if match else None
 
 
 def get_files(shortcode):
@@ -18,7 +24,8 @@ def get_files(shortcode):
 
 
 
-def post(shortcode):
+def post(link):
+    shortcode = get_shortcode(link)
     L = instaloader.Instaloader()
     post = instaloader.Post.from_shortcode(L.context, shortcode)
     L.download_post(post, target=shortcode)   
