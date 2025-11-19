@@ -5,7 +5,7 @@ import instaloader
 import re
 
 
-def get_shortcode(link):
+def get_shortcode(url):
     """Extract shortcode - grabs alphanumeric string after /p/, /reel/, /tv/"""
 
     # Match word characters until we hit /, ?, #, or end of string
