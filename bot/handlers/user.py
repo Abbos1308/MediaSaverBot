@@ -75,7 +75,7 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
 
 @router.message(lambda msg: msg.text.startswith("https://www.instagram"))
 async def insta(message: Message):
-    url = message.url
+    url = message.text
     files = await insta(url)
     for i in files:
         await message.answer_document(i['url'])
