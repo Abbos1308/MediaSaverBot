@@ -15,11 +15,14 @@ async def insta(url):
             print(len(data))
             return data
 
+import aiohttp
+from aiogram.types import BufferedInputFile
+from aiogram.exceptions import TelegramBadRequest
 
 async def send_media(message, url: str, filename: str = None):
     """
-    Fetch a file from URL and send it to Telegram as photo/video/document
-    depending on content-type.
+    Fetch a file from URL and send it inline as photo/video if possible.
+    Falls back to document if neither works.
     """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
@@ -28,18 +31,21 @@ async def send_media(message, url: str, filename: str = None):
                 return
 
             data = await resp.read()
-            content_type = resp.headers.get("Content-Type", "")
+            file = BufferedInputFile(data, filename or "media.bin")
 
-            # Decide how to send based on content-type
-            if content_type.startswith("image"):
-                await message.answer_photo(
-                    BufferedInputFile(data, filename or "image.jpg")
-                )
-            elif content_type.startswith("video"):
-                await message.answer_video(
-                    BufferedInputFile(data, filename or "video.mp4")
-                )
-            else:
-                await message.answer_document(
-                    BufferedInputFile(data, filename or "file.bin")
-                )
+            # Try sending as photo
+            try:
+                await message.answer_photo(file)
+                return
+            except TelegramBadRequest:
+                pass
+
+            # Try sending as video
+            try:
+                await message.answer_video(file)
+                return
+            except TelegramBadRequest:
+                pass
+
+            # Fallback: send as document
+            await message.answer_document(file)
