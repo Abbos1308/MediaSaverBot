@@ -6,7 +6,7 @@ from bot.database.queries import add_user, update_user_activity
 from bot.utils.helpers import check_user_subscription
 from bot.keyboards.user import get_subscription_check_keyboard
 from bot.keyboards.admin import get_admin_menu
-from functions.insta import insta
+from functions.insta import insta,  send_media
 
 
 router = Router()
@@ -77,6 +77,4 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
 async def instagram_handler(message: Message):
     url = message.text
     files = await insta(url)
-    for i in files:
-        await message.answer_document(i['url'])
-    
+    await send_media(message,files[0]['url'])
