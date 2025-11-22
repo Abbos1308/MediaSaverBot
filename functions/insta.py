@@ -29,23 +29,26 @@ async def send_media(message, url: str, filename: str = None):
             if resp.status != 200:
                 await message.answer("Failed to fetch media.")
                 return
+            
 
             data = await resp.read()
-            file = BufferedInputFile(data, filename or "media.bin")
+            if await resp.headers.get("Content-Disposition").endswith(".jpg"):
+                filename = "picture.jpg"
+            elif await resp.headers.get("Content-Disposition").endswith(".mp4"):
+                filename = "video.mp4"
+            else :
+                await message.answer("Fayl formati qo'llab quvvatlanmaydi. Iltimos havolani tekshirib qayta yuboring.")
+            file = BufferedInputFile(data, filename)
 
             # Try sending as photo
-            try:
+            if filename=="picture.jpg":
                 await message.answer_photo(file)
                 return
-            except TelegramBadRequest:
-                pass
 
             # Try sending as video
-            try:
+            elif filename=="video.mp4":
                 await message.answer_video(file)
                 return
-            except TelegramBadRequest:
-                pass
 
             # Fallback: send as document
             await message.answer_document(file)
