@@ -77,4 +77,5 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
 async def instagram_handler(message: Message):
     url = message.text
     files = await insta(url)
-    await send_media(message,files[0]['url'])
+    for i in files:
+        await send_media(message,i['url'])
