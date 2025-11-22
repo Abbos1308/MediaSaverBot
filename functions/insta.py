@@ -32,9 +32,9 @@ async def send_media(message, url: str, filename: str = None):
             
 
             data = await resp.read()
-            if await resp.headers.get("Content-Disposition").endswith(".jpg"):
+            if resp.headers.get("Content-Disposition").endswith(".jpg"):
                 filename = "picture.jpg"
-            elif await resp.headers.get("Content-Disposition").endswith(".mp4"):
+            elif resp.headers.get("Content-Disposition").endswith(".mp4"):
                 filename = "video.mp4"
             else :
                 await message.answer("Fayl formati qo'llab quvvatlanmaydi. Iltimos havolani tekshirib qayta yuboring.")
