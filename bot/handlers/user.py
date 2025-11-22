@@ -25,7 +25,7 @@ async def cmd_start(message: Message, is_admin: bool):
     
     if not is_subscribed:
         await message.answer(
-            "⚠️ To use this bot, you must subscribe to the following channels:",
+            "⚠️ Botdan foydalanish uchun avval quyidagi kanallarga a'zo bo'lishingiz zarur:",
             reply_markup=get_subscription_check_keyboard(not_subscribed_channels)
         )
         return
@@ -38,8 +38,11 @@ async def cmd_start(message: Message, is_admin: bool):
         )
     else:
         await message.answer(
-            f"👋 Welcome, {user.first_name}!\n\n"
-            "You have access to the bot. Use /start to see this message again."
+            f"👋 Assalomu alaykum, {user.first_name}!\n\n"
+            "Ishni boshlashim uchun havolani yuboring 🖇️\n\n"
+            "Qo'llab quvvatlanadigan ijtimoiy tarmoqlar: \n"
+            "Instagram\n"
+            "Tez orada boshqa ijtimoiy tarmoq funksiyalari ham qo'shiladi. Kuzatib boring"
         )
 
 @router.callback_query(F.data == "check_subscription")
@@ -53,7 +56,7 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
     
     if not is_subscribed:
         await callback.message.edit_text(
-            "❌ You are still not subscribed to all required channels!",
+            "❌ Barcha kanallarga a'zo bo'lmagansiz! Qayta urunib ko'ring.",
             reply_markup=get_subscription_check_keyboard(not_subscribed_channels)
         )
         return
