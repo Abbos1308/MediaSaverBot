@@ -41,7 +41,7 @@ async def cmd_start(message: Message, is_admin: bool):
             f"👋 Assalomu alaykum, {user.first_name}!\n\n"
             "Ishni boshlashim uchun havolani yuboring 🖇️\n\n"
             "Qo'llab quvvatlanadigan ijtimoiy tarmoqlar: \n"
-            "Instagram\n"
+            "• Instagram\n\n"
             "Tez orada boshqa ijtimoiy tarmoq funksiyalari ham qo'shiladi. Kuzatib boring"
         )
 
