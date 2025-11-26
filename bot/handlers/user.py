@@ -78,7 +78,9 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
 
 @router.message(lambda msg: msg.text.startswith("https://www.instagram"))
 async def instagram_handler(message: Message):
+    temp_msg = await message.answer("⏳")
     url = message.text
     files = await insta(url)
+    await bot.delete_message(chat_id=message.chat.id, message_id=temp_msg.message_id)
     for i in files:
         await send_media(message,i['url'])
