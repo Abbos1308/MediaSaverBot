@@ -1,4 +1,4 @@
-from aiogram import Router, F
+from aiogram import Router, F , Bot
 from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
@@ -77,7 +77,7 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
 
 
 @router.message(lambda msg: msg.text.startswith("https://www.instagram"))
-async def instagram_handler(message: Message):
+async def instagram_handler(message: Message,bot:Bot):
     temp_msg = await message.answer("⏳")
     url = message.text
     files = await insta(url)
