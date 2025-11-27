@@ -93,4 +93,4 @@ async def yt_fetch_handler(message: Message,bot:Bot):
     metadata = await yt(url)
     thumbnail = metadata['thumbnails'][-1]['url']
     title = metadata['title']
-    await message.answer_photo(thumbnail,caption=title,reply_markup=yt_formats_keyboard(['mp3','360','720']))
+    await message.answer_photo(thumbnail,caption=title,reply_markup=yt_formats_keyboard(['🎵 Mp3','🎥 360','🎥 720']))
