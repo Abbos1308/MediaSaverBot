@@ -39,7 +39,7 @@ async def main():
     dp.message.middleware(AdminMiddleware())
     dp.callback_query.middleware(AdminMiddleware())
     dp.message.middleware(ThrottlingMiddleware(rate_limit=1.5))
-    dp.callbackquery.middleware(ThrottlingMiddleware(ratelimit=1.5))
+    dp.callback_query.middleware(ThrottlingMiddleware(ratelimit=1.5))
 
     dp.include_router(user.router)
     dp.include_router(admin.router)
