@@ -28,3 +28,13 @@ def get_subscription_check_keyboard(channels) -> InlineKeyboardMarkup:
     keyboard.append([InlineKeyboardButton(text="✅ Check Subscription", callback_data="check_subscription")])
     
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+def yt_formats_keyboard(formats) -> InlineKeyboardMarkup:
+    keyboard = []
+
+    for format in formats:
+        keyboard.append([InlineKeyboardButton(
+            text = format,
+            callback_data=f"yt/{format}"
+        )])
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)

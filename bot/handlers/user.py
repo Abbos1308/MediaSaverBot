@@ -4,10 +4,10 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from bot.database.queries import add_user, update_user_activity
 from bot.utils.helpers import check_user_subscription
-from bot.keyboards.user import get_subscription_check_keyboard
+from bot.keyboards.user import get_subscription_check_keyboard , yt_formats_keyboard
 from bot.keyboards.admin import get_admin_menu
-from functions.insta import insta,  send_media
-
+from functions.insta import insta , send_media
+from functions.yt import yt
 
 router = Router()
 
@@ -41,7 +41,8 @@ async def cmd_start(message: Message, is_admin: bool):
             f"👋 Assalomu alaykum, {user.first_name}!\n\n"
             "Ishni boshlashim uchun havolani yuboring 🖇️\n\n"
             "Qo'llab quvvatlanadigan ijtimoiy tarmoqlar: \n"
-            "• Instagram\n\n"
+            "• Instagram\n"
+            "• YouTube\n\n"
             "Tez orada boshqa ijtimoiy tarmoq funksiyalari ham qo'shiladi. Kuzatib boring"
         )
 
@@ -84,3 +85,12 @@ async def instagram_handler(message: Message,bot:Bot):
     await bot.delete_message(chat_id=message.chat.id, message_id=temp_msg.message_id)
     for i in files:
         await send_media(message,i['url'])
+
+
+@router.message(F.text.contains("youtube.com") | F.text.contains("youtu.be"))
+async def yt_fetch_handler(message: Message,bot:Bot):
+    url = message.text
+    metadata = yt(url)
+    thumbnail = metadata['thumbnails'][-1]['url']
+    title = metadata['title']
+    await message.answer_photo(thumbnail,caption=title,reply_markup=yt_formats_keyboard(['mp3','360','720']))
