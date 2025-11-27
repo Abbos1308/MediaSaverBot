@@ -117,7 +117,8 @@ async def instagram_handler(message: Message,bot:Bot):
 
 @router.message(F.text.contains("youtube.com") | F.text.contains("youtu.be"))
 async def ytfetchhandler(message: Message, bot: Bot):
-    url = message.text.strip()
+    url = message.text
+    print("working...")
     metadata = await yt(url)
     thumbnail = metadata["thumbnails"][-1]["url"]
     title = metadata["title"]
