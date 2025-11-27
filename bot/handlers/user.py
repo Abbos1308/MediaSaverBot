@@ -4,7 +4,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from bot.database.queries import add_user, update_user_activity
 from bot.utils.helpers import check_user_subscription
-from bot.keyboards.user import get_subscription_check_keyboard , yt_formats_keyboard
+from bot.keyboards.user import get_subscription_check_keyboard , ytformatskeyboard
 from bot.keyboards.admin import get_admin_menu
 from functions.insta import insta , send_media
 from functions.yt import yt
@@ -125,5 +125,5 @@ async def ytfetchhandler(message: Message, bot: Bot):
     await message.answer_photo(
         thumbnail,
         caption=title,
-        replymarkup=ytformats_keyboard(url, ["🎵 Mp3", "🎥 360", "🎥 720"])
+        replymarkup=ytformatskeyboard(url, ["🎵 Mp3", "🎥 360", "🎥 720"])
     )
