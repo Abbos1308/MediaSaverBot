@@ -17,4 +17,4 @@ async def yt(url,format="metadata",quality=360):
             data = await response.json()
             return data
 
-asyncio.run(yt("https://youtu.be/KRedCn1d0Ys?si=8X6Vij7a-0xOdsD5"))
+print(asyncio.run(yt("https://youtu.be/KRedCn1d0Ys?si=8X6Vij7a-0xOdsD5")))

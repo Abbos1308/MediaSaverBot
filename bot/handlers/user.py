@@ -90,7 +90,7 @@ async def instagram_handler(message: Message,bot:Bot):
 @router.message(F.text.contains("youtube.com") | F.text.contains("youtu.be"))
 async def yt_fetch_handler(message: Message,bot:Bot):
     url = message.text
-    metadata = yt(url)
+    metadata = await yt(url)
     thumbnail = metadata['thumbnails'][-1]['url']
     title = metadata['title']
     await message.answer_photo(thumbnail,caption=title,reply_markup=yt_formats_keyboard(['mp3','360','720']))
