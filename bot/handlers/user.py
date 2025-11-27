@@ -77,8 +77,9 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
         )
 
 @router.callback_query(F.data['type'] == "yt")
-async def download_yt(callback: CallbackQuery):
+async def download_yt(callback: CallbackQuery,bot:Bot):
     await callback.answer()
+    temp_msg = await callback.message.answer("⏳")
     qulaity = None
     format = callback.data['format']
     if format != "mp3":
@@ -86,6 +87,7 @@ async def download_yt(callback: CallbackQuery):
         format = "mp4"
     url = callback.data[1]
     data = await yt(url,format,quality=quality)
+    await bot.delete_message(chat_id=message.chat.id, message_id=temp_msg.message_id)
     if data['status']:
         if format == "mp3":
             await callback.message.answer_audio(data['download']['url'])
