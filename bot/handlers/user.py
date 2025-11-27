@@ -76,6 +76,24 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
             f"👋 Welcome, {user.first_name}!"
         )
 
+@router.callback_query(F.data['type'] == "yt")
+async def download_yt(callback: CallbackQuery):
+    await callback.answer()
+    qulaity = None
+    format = callback.data['format']
+    if format != "mp3":
+        quality = format
+        format = "mp4"
+    url = callback.data[1]
+    data = await yt(url,format,quality=quality)
+    if data['status']:
+        if format == "mp3":
+            await callback.message.answer_audio(data['download']['url'])
+        else:
+            await callback.message.answer_video(data['download']['url'])
+    else:
+        await callback.message.answer("Xatolik yuz berdi. Iltimos, qayta urinib ko`ring.")
+
 
 @router.message(lambda msg: msg.text.startswith("https://www.instagram"))
 async def instagram_handler(message: Message,bot:Bot):

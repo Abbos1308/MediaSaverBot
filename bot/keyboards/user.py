@@ -35,6 +35,10 @@ def yt_formats_keyboard(formats) -> InlineKeyboardMarkup:
     for format in formats:
         keyboard.append([InlineKeyboardButton(
             text = format,
-            callback_data=f"yt/{format}"
+            callback_data= {
+                "type" : "yt",
+                "format" : format,
+                "quality" : format
+            }
         )])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
