@@ -76,26 +76,35 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
             f"👋 Welcome, {user.first_name}!"
         )
 
-@router.callback_query(F.data['type'] == "yt")
-async def download_yt(callback: CallbackQuery,bot:Bot):
+@router.callback_query(F.data)
+async def download_yt(callback: CallbackQuery, bot: Bot):
     await callback.answer()
-    temp_msg = await callback.message.answer("⏳")
-    qulaity = None
-    format = callback.data['format']
-    if format != "mp3":
-        quality = format
-        format = "mp4"
-    url = callback.data[1]
-    data = await yt(url,format,quality=quality)
-    await bot.delete_message(chat_id=message.chat.id, message_id=temp_msg.message_id)
-    if data['status']:
-        if format == "mp3":
-            await callback.message.answer_audio(data['download']['url'])
-        else:
-            await callback.message.answer_video(data['download']['url'])
-    else:
-        await callback.message.answer("Xatolik yuz berdi. Iltimos, qayta urinib ko`ring.")
 
+    # Parse callback_data back to dict
+    payload = json.loads(callback.data)
+    fmt = payload["format"].lower().replace("🎵 ", "").replace("🎥 ", "")
+
+    url = payload["url"]
+
+    temp_msg = await callback.message.answer("⏳")
+
+    quality = None
+    if fmt != "mp3":
+        quality = fmt.replace("🎥 ", "")  # extract number like 360/720
+        fmt = "mp4"
+
+    data = await yt(url, fmt, quality=quality)
+
+    # Delete temp message
+    await bot.deletemessage(chatid=callback.message.chat.id, messageid=tempmsg.message_id)
+
+    if data.get("status"):
+        if fmt == "mp3":
+            await callback.message.answer_audio(data["download"]["url"])
+        else:
+            await callback.message.answer_video(data["download"]["url"])
+    else:
+        await callback.message.answer("❌ Xatolik yuz berdi. Iltimos, qayta urinib ko`ring.")
 
 @router.message(lambda msg: msg.text.startswith("https://www.instagram"))
 async def instagram_handler(message: Message,bot:Bot):
@@ -106,11 +115,15 @@ async def instagram_handler(message: Message,bot:Bot):
     for i in files:
         await send_media(message,i['url'])
 
-
 @router.message(F.text.contains("youtube.com") | F.text.contains("youtu.be"))
-async def yt_fetch_handler(message: Message,bot:Bot):
-    url = message.text
+async def ytfetchhandler(message: Message, bot: Bot):
+    url = message.text.strip()
     metadata = await yt(url)
-    thumbnail = metadata['thumbnails'][-1]['url']
-    title = metadata['title']
-    await message.answer_photo(thumbnail,caption=title,reply_markup=yt_formats_keyboard(['🎵 Mp3','🎥 360','🎥 720']))
+    thumbnail = metadata["thumbnails"][-1]["url"]
+    title = metadata["title"]
+
+    await message.answer_photo(
+        thumbnail,
+        caption=title,
+        replymarkup=ytformats_keyboard(url, ["🎵 Mp3", "🎥 360", "🎥 720"])
+    )
