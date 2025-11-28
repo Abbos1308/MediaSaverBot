@@ -128,5 +128,5 @@ async def ytfetchhandler(message: Message, bot: Bot):
     await message.answer_photo(
         thumbnail,
         caption=title,
-        #replymarkup=ytformatskeyboard(url, ["🎵 Mp3", "🎥 360", "🎥 720"])
+        reply_markup=ytformatskeyboard(url, ["🎵 Mp3", "🎥 360", "🎥 720"])
    )
