@@ -84,7 +84,7 @@ async def download_yt(callback: CallbackQuery, bot: Bot):
     fmt = info[1]
     url = info[2]
     temp_msg = await callback.message.answer("⏳")
-    data = []
+    data = {}
     quality = None
     if fmt == "mp3":
         data = await yt(url,format="mp3")
