@@ -94,7 +94,7 @@ async def download_yt(callback: CallbackQuery, bot: Bot):
         data = await yt(url,format="mp4",quality=720)
     # Delete temp message
     await bot.delete_message(chat_id=callback.message.chat.id, message_id=temp_msg.message_id)
-
+    await callback.message.answer(str(data))
     if data["status"]:
         if fmt == "mp3":
             await callback.message.answer_audio(data["download"]["url"])
