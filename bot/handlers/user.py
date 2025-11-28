@@ -81,6 +81,7 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
 async def download_yt(callback: CallbackQuery, bot: Bot):
     await callback.answer()
     info = callback.data.split(":")
+    await callback.message.answer(str(info))
     fmt = info[1]
     url = info[2]
     temp_msg = await callback.message.answer("⏳")
@@ -92,7 +93,7 @@ async def download_yt(callback: CallbackQuery, bot: Bot):
         data = await yt(url,format="mp4")
     elif fmt == "720":
         data = await yt(url,format="mp4",quality=720)
-    await callback.message.answer(data)
+    await callback.message.answer(str(data))
     # Delete temp message
     await bot.delete_message(chat_id=callback.message.chat.id, message_id=temp_msg.message_id)
 
