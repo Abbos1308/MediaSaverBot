@@ -32,11 +32,10 @@ def get_subscription_check_keyboard(channels) -> InlineKeyboardMarkup:
 def ytformatskeyboard(url: str, formats: list[str]) -> InlineKeyboardMarkup:
     keyboard = []
     for fmt in formats:
-        payload = {"type": "yt", "format": fmt, "url": url}
         keyboard.append([
             InlineKeyboardButton(
                 text=fmt,
-                callback_data=json.dumps(payload)  # must be string
+                callback_data=f"yt:{fmt[2:]}:{url}" # must be string
             )
         ])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)

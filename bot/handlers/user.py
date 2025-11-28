@@ -80,22 +80,19 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
 @router.callback_query(F.data.contains("yt"))
 async def download_yt(callback: CallbackQuery, bot: Bot):
     await callback.answer()
-
-    # Parse callback_data back to dict
-    payload = json.loads(callback.data)
-    fmt = payload["format"].lower().replace("🎵 ", "").replace("🎥 ", "")
-
-    url = payload["url"]
-
+    info = callback.data.split(":")
+    fmt = info[1]
+    url = info[2]
     temp_msg = await callback.message.answer("⏳")
 
     quality = None
-    if fmt != "mp3":
-        quality = fmt.replace("🎥 ", "")  # extract number like 360/720
-        fmt = "mp4"
-
-    data = await yt(url, fmt, quality=quality)
-
+    if fmt == "mp3":
+        data = await yt(url,format="mp3")
+    elif fmt == "360":
+        data = await yt(url,format="mp4")
+    elif fmt == "720":
+        data = await yt(url,format="mp4",quality=720)
+    
     # Delete temp message
     await bot.deletemessage(chatid=callback.message.chat.id, messageid=tempmsg.message_id)
 
