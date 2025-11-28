@@ -92,7 +92,7 @@ async def download_yt(callback: CallbackQuery, bot: Bot):
         data = await yt(url,format="mp4")
     elif fmt == "720":
         data = await yt(url,format="mp4",quality=720)
-    print(data)
+    await callback.message.answer(data)
     # Delete temp message
     await bot.delete_message(chat_id=callback.message.chat.id, message_id=temp_msg.message_id)
 
