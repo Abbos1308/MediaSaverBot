@@ -97,9 +97,9 @@ async def download_yt(callback: CallbackQuery, bot: Bot):
     #await callback.message.answer(str(data))
     if data['download']["status"]:
         if fmt == "mp3":
-            await callback.message.answer_audio(data["download"]["url"])
+            await callback.message.answer_audio(data["download"]["url"],caption=f"{data["title"]} \n\n Videolarni yuklash endi oson! \n @instadwnd_bot bilan 🎧 ")
         else:
-            await callback.message.answer_video(data["download"]["url"])
+            await callback.message.answer_video(data["download"]["url"],caption=f"{data["title"]} \n\n Videolarni yuklash endi oson! \n @instadwnd_bot bilan 🎧 ")
     else:
         await callback.message.answer("❌ Xatolik yuz berdi. Iltimos, qayta urinib ko`ring.")
 
@@ -123,6 +123,6 @@ async def ytfetchhandler(message: Message, bot: Bot):
 
     await message.answer_photo(
         thumbnail,
-        caption=title,
+        caption=f"{title} \n\n Kerakli formatni tanlang 👇",
         reply_markup=ytformatskeyboard(url, ["🎵 Mp3", "🎥 360", "🎥 720"])
    )
