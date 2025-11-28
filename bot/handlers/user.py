@@ -121,7 +121,7 @@ async def ytfetchhandler(message: Message, bot: Bot):
     url = message.text
     #print("working...")
     metadata = await yt(url)
-    thumbnail = metadata["thumbnails"][-1]["url"]
+    thumbnail = metadata["thumbnails"][2]["url"]
     print(thumbnail)
     title = metadata["title"]
 
