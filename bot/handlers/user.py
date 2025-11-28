@@ -77,7 +77,7 @@ async def check_subscription_callback(callback: CallbackQuery, is_admin: bool):
             f"👋 Welcome, {user.first_name}!"
         )
 
-@router.callback_query(F.data)
+@router.callback_query(F.data.contains("yt"))
 async def download_yt(callback: CallbackQuery, bot: Bot):
     await callback.answer()
 
