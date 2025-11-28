@@ -42,11 +42,11 @@ async def send_media(message, url: str, filename: str = None):
 
             # Try sending as photo
             if filename=="picture.jpg":
-                await message.answer_photo(file,caption=f"\n Videolarni yuklash endi oson! \n @instadwnd_bot bilan 🎧 ")                return
+                await message.answer_photo(file,caption="Videolarni yuklash endi oson! \n @instadwnd_bot bilan 🎧 ")         
 
             # Try sending as video
             elif filename=="video.mp4":
-                await message.answer_video(file,caption=f"\n Videolarni yuklash endi oson! \n @instadwnd_bot bilan 🎧 ")
+                await message.answer_video(file,caption=f"Videolarni yuklash endi oson! \n @instadwnd_bot bilan 🎧 ")
                 return
 
             # Fallback: send as document
